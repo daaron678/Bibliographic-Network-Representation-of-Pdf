@@ -1,2 +1,62 @@
+import fitz  # PyMuPDF for PDF text extraction
+import argparse # handle cli args
+
+# extract_text_from_pdf() taken from https://github.com/matheusmaldaner/PlatosCave/blob/main/backend/main.py 
+def extract_text_from_pdf(pdf_path: str) -> str:
+    """
+    Extract text content from a PDF file using PyMuPDF.
+
+    Args:
+        pdf_path: Path to the PDF file
+
+    Returns:
+        Extracted text content as a string
+
+    Raises:
+        FileNotFoundError: If PDF file doesn't exist
+        Exception: If PDF extraction fails
+    """
+    pdf_path_obj = Path(pdf_path)
+
+    if not pdf_path_obj.exists():
+        raise FileNotFoundError(f"PDF file not found: {pdf_path}")
+
+    if not pdf_path_obj.is_file():
+        raise ValueError(f"Path is not a file: {pdf_path}")
+
+    print(f"[MAIN.PY DEBUG] Extracting text from PDF: {pdf_path}", file=sys.stderr, flush=True)
+
+    try:
+        # Open the PDF file
+        doc = fitz.open(pdf_path)
+        text_content = []
+        page_count = len(doc)
+
+        # Extract text from each page
+        for page_num in range(page_count):
+            page = doc[page_num]
+            page_text = page.get_text()
+            if page_text.strip():  # Only add non-empty pages
+                text_content.append(f"--- Page {page_num + 1} ---\n{page_text}")
+
+        doc.close()
+
+        extracted_text = "\n\n".join(text_content)
+        print(f"[MAIN.PY DEBUG] Extracted {len(extracted_text)} characters from {page_count} pages", file=sys.stderr, flush=True)
+
+        return extracted_text
+
+    except Exception as e:
+        print(f"[MAIN.PY DEBUG] Error extracting PDF text: {e}", file=sys.stderr, flush=True)
+        raise Exception(f"Failed to extract text from PDF: {e}")
+
+
 def main():
-    
+    if __name__ == "__main__":
+        parser = argparse.ArgumentParser(description="Analyze research papers from URL or PDF file.")
+        parser.add_argument("filepath", type=str, help="The path to the PDF file.")
+        args = parser.parse_args()
+        extract_text_from_pdf(args.filepath)
+        
+        # CLI format to run program:
+        # python main.py "/path/to/paper.pdf"
