@@ -1,5 +1,7 @@
-import fitz  # PyMuPDF for PDF text extraction
+import pymupdf  # PyMuPDF for PDF text extraction
 import argparse # handle cli args
+import sys
+from pathlib import Path
 
 # extract_text_from_pdf() taken from https://github.com/matheusmaldaner/PlatosCave/blob/main/backend/main.py 
 def extract_text_from_pdf(pdf_path: str) -> str:
@@ -28,7 +30,7 @@ def extract_text_from_pdf(pdf_path: str) -> str:
 
     try:
         # Open the PDF file
-        doc = fitz.open(pdf_path)
+        doc = fitz.open(pdf_path) 
         text_content = []
         page_count = len(doc)
 
@@ -50,13 +52,19 @@ def extract_text_from_pdf(pdf_path: str) -> str:
         print(f"[MAIN.PY DEBUG] Error extracting PDF text: {e}", file=sys.stderr, flush=True)
         raise Exception(f"Failed to extract text from PDF: {e}")
 
-
 def main():
-    if __name__ == "__main__":
-        parser = argparse.ArgumentParser(description="Analyze research papers from URL or PDF file.")
-        parser.add_argument("filepath", type=str, help="The path to the PDF file.")
-        args = parser.parse_args()
-        extract_text_from_pdf(args.filepath)
-        
-        # CLI format to run program:
-        # python main.py "/path/to/paper.pdf"
+    print(sys.stderr)
+
+
+if __name__ == "__main__":
+    parser = argparse.ArgumentParser(description="Analyze research papers from URL or PDF file.")
+    # parser.add_argument("filepath", type=str, help="The path to the PDF file.")
+    # args = parser.parse_args()
+    # extract_text_from_pdf(args.filepath)
+    
+    # CLI format to run program:
+    # python main.py "/path/to/paper.pdf"
+    
+    main()
+    
+    
