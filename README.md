@@ -1,6 +1,15 @@
 # Bibliographic-Network-Representation-of-Pdf
 
 Background
+- Program that reads in a pdf article and converts text into bibliographic network where nodes
+represent keywords with attributes such as total occurrence in article. To represent the text in the 
+article with a variety of networks, attributes such as which paragraph a keyword occurs and total occurrences
+in that paragraph is needed. As such, the program parses the words into their respective paragraphs. Text
+embedded within images will also be handled. The source code should automate this process for any pdf
+with keywords being passed in by the user.
+
+
+
 I am interested in analyzing information on the relations between words in a scientific article.
 Semantic networks are a type of graph network used where individual words are assigned
 grammar types and connected to each other. The individual word represents a node and the edges
