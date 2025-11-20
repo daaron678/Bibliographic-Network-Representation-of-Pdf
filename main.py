@@ -7,10 +7,6 @@ from pathlib import Path
 def extract_text_from_pdf(pdf_path: str) -> str:
     """
     Extract text content from a PDF file using PyMuPDF.
-
-    Args:
-        pdf_path: Path to the PDF file
-
     Returns:
         Extracted text content as a string
 
@@ -37,15 +33,15 @@ def extract_text_from_pdf(pdf_path: str) -> str:
         for page_num in range(page_count):
             page = doc[page_num]
             page_text = page.get_text() 
-            # if page_text.strip():  # evaluates to false if page_text is empty string so that empty pages are excluded 
+            # if page_text.strip():  # evaluates to false if len(page_text) is 0 (empty string) so that empty pages are excluded 
             #     text_content.append(f"--- Page {page_num + 1} ---\n{page_text}")
 
         doc.close()
 
-        # extracted_text = "\n\n".join(text_content) # add two newlines after every page
-        # print(f"[MAIN.PY DEBUG] Extracted {len(extracted_text)} characters from {page_count} pages", file=sys.stderr, flush=True)
+        extracted_text = "\n\n".join(text_content) # add two newlines after every page
+        print(f"[MAIN.PY DEBUG] Extracted {len(extracted_text)} characters from {page_count} pages", file=sys.stderr, flush=True)
 
-        # return extracted_text
+        return extracted_text
 
     except Exception as e:
         print(f"[MAIN.PY DEBUG] Error extracting PDF text: {e}", file=sys.stderr, flush=True)
